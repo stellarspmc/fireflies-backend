@@ -11,21 +11,9 @@ app.post('/', async (c) => {
     prompt: await c.req.text(),
   });
 
-
+  c.header("Access-Control-Allow-Origin", "https://fireflies.chiculture.org.hk/");
   return c.text(text.text, 200);
 })
 app.get('/', async (c) => c.text('fireflies-backend', 200))
-
-app.use(
-    "*",
-    cors({
-      origin: "https://fireflies.chiculture.org.hk/",
-      allowHeaders: ["Content-Type", "Authorization"],
-      allowMethods: ["POST", "GET", "OPTIONS"],
-      exposeHeaders: ["Content-Length"],
-      maxAge: 600,
-      credentials: true,
-    }),
-);
 
 export default app
