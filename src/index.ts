@@ -1,48 +1,19 @@
-import { Context, Hono } from 'hono'
-import { Message } from "./poe/message/Message";
-import { streamSSE } from 'hono/streaming'
+// @ts-ignore
+import { FreeAI } from '@milcondev/free-ai';
+import { Hono } from 'hono'
+import dotenv from 'dotenv';
+dotenv.config();
+
+const freeAI = new FreeAI(1000);
 const app = new Hono()
 
-function handleSettings(c: Context) {
-  return c.json({
-    server_bot_dependencies: {
-      'GPT-4o': 1,
-    },
-    introduction_message: 'Please input the question.',
-  })
+interface Env {
+  ACCESS_KEY: string
 }
 
-function handleQuery(c: Context) {
-  return streamSSE(c, async (stream) => {
-    const writeSSE = (
-        message: Message,
-    ) => {
-      stream.writeSSE({
-        event: message.event,
-        data: JSON.stringify(message.data),
-      })
-    }
-    writeSSE({
-      event: 'meta',
-      data: { content_type: 'text/markdown', suggested_replies: true },
-    })
-    writeSSE({ event: 'text', data: { text: 'Hello, World!' } })
-    writeSSE({ event: 'done', data: {} })
-  })
-}
+const bot
 
-app.post('/', async (c) => {
-  const request = await c.req.json()
-  const { version, type } = request
-
-  switch (type) {
-    case 'query':
-      return handleQuery(c)
-    case 'settings':
-      return handleSettings(c)
-    default:
-      throw new Error('Invalid request type')
-  }
-})
+app.post('/', bot.handler)
+app.get('/', async (c) => c.text('fireflies-backend'))
 
 export default app

@@ -7,6 +7,8 @@
     "cf-typegen": "wrangler types --env-interface CloudflareBindings"
   },
   "dependencies": {
+    "@milcondev/free-ai": "^6.0.0",
+    "dotenv": "^16.5.0",
     "hono": "^4.7.7"
   },
   "devDependencies": {
