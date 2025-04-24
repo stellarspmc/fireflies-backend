@@ -8,7 +8,7 @@ function handleSettings(c: Context) {
     server_bot_dependencies: {
       'GPT-4o': 1,
     },
-    introduction_message: 'Hello, I am a server bot.',
+    introduction_message: 'Please input the question.',
   })
 }
 
@@ -34,12 +34,6 @@ function handleQuery(c: Context) {
 app.post('/', async (c) => {
   const request = await c.req.json()
   const { version, type } = request
-  function handleQuery(c: Context) {
-    throw new Error('Not implemented')
-  }
-  function handleSettings(c: Context) {
-    throw new Error('Not implemented')
-  }
 
   switch (type) {
     case 'query':
