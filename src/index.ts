@@ -1,9 +1,8 @@
 import { Hono } from 'hono';
-import { cors } from "hono/cors";
 import { xai } from '@ai-sdk/xai';
 import { generateText } from 'ai';
 
-const app = new Hono()
+const app = new Hono();
 
 app.post('/', async (c) => {
   const text  = await generateText({
@@ -15,6 +14,9 @@ app.post('/', async (c) => {
     "Access-Control-Allow-Origin": "https://fireflies.chiculture.org.hk"
   });
 })
-app.get('/', async (c) => c.text('fireflies-backend', 200))
 
-export default app
+app.get('/', async (c) => c.text('fireflies-backend', 200, {
+  "Access-Control-Allow-Origin": "*"
+}));
+
+export default app;
