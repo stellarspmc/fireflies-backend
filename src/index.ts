@@ -1,5 +1,3 @@
-import 'dotenv/config';
-
 import { Hono } from 'hono'
 import { xai } from '@ai-sdk/xai';
 import { generateText } from 'ai';
