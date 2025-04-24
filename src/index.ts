@@ -1,19 +1,18 @@
-// @ts-ignore
-import { FreeAI } from '@milcondev/free-ai';
-import { Hono } from 'hono'
-import dotenv from 'dotenv';
-dotenv.config();
+import 'dotenv/config';
 
-const freeAI = new FreeAI(1000);
+import { Hono } from 'hono'
+import { xai } from '@ai-sdk/xai';
+import { generateText } from 'ai';
+
 const app = new Hono()
 
-interface Env {
-  ACCESS_KEY: string
-}
-
-const bot
-
-app.post('/', bot.handler)
-app.get('/', async (c) => c.text('fireflies-backend'))
+app.post('/', async (c) => {
+  const text  = await generateText({
+    model: xai('grok-3-mini'),
+    prompt: await c.req.text(),
+  });
+  return c.text(text.text, 200);
+})
+app.get('/', async (c) => c.text('fireflies-backend', 200))
 
 export default app
