@@ -4,14 +4,17 @@ import { generateText } from 'ai';
 
 const app = new Hono();
 
+const whitelist = ['https://fireflies.chiculture.org.hk', 'https://learning.chiculture.org.hk'];
+
+
 app.post('/', async (c) => {
   const text  = await generateText({
-    model: xai('grok-3-mini'),
+    model: xai('grok-3-mini-fast'),
     prompt: await c.req.text(),
   });
 
   return c.text(text.text, 200, {
-    "Access-Control-Allow-Origin": "https://fireflies.chiculture.org.hk"
+    "Access-Control-Allow-Origin": whitelist
   });
 })
 
